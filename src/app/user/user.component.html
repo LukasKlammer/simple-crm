@@ -1,4 +1,16 @@
-<p>user works!</p>
+<mat-card>
+  <table class="user-table">
+    <th>Name</th>
+    <th>E-Mail</th>
+    <th>city</th>
+    <tr *ngFor="let user of allUsers">
+      <td></td>
+      <td>Mail</td>
+      <td>Stadt</td>
+    </tr>
+  </table>
+</mat-card>
+
 <button (click)="openDialog()" mat-fab color="primary" class="add-user-button" matTooltip="Add user">
   <mat-icon>add</mat-icon>
 </button>
