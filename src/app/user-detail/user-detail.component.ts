@@ -13,7 +13,7 @@ import { User } from '../modules/user.class';
 })
 export class UserDetailComponent implements OnInit {
 
-  userId = '';
+  userId: string = '';
   user: User = new User();
 
   constructor(private route: ActivatedRoute, private firestore: AngularFirestore, public dialog: MatDialog) { }
@@ -36,10 +36,15 @@ export class UserDetailComponent implements OnInit {
   }
 
   editMenu() {
-    this.dialog.open(DialogEditAddressComponent);
+    const dialog = this.dialog.open(DialogEditAddressComponent);
+    dialog.componentInstance.user = new User(this.user.toJSON());
+    dialog.componentInstance.userId = this.userId;
   }
 
   editUserDetail() {
-    this.dialog.open(DialogEditUserComponent);
+    const dialog = this.dialog.open(DialogEditUserComponent);
+    dialog.componentInstance.user = new User(this.user.toJSON());
+    dialog.componentInstance.userId = this.userId;
   }
+
 }

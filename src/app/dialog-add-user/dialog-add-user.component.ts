@@ -14,9 +14,8 @@ export class DialogAddUserComponent implements OnInit {
   birthday: Date = new Date();
   isLoading: boolean = false;
 
-  constructor(private firestore: AngularFirestore, public dialogRef: MatDialogRef<DialogAddUserComponent>,) {
-
-   }
+  constructor(private firestore: AngularFirestore, public dialogRef: MatDialogRef<DialogAddUserComponent>) {
+  }
 
   ngOnInit(): void {
   }
@@ -29,10 +28,10 @@ export class DialogAddUserComponent implements OnInit {
     this.firestore
       .collection('users')
       .add(this.user.toJSON())
-      .then((result:any) => {
-          console.log('Adding user finished: ', result);
-          this.isLoading = false;
-          this.dialogRef.close();
+      .then((result: any) => {
+        console.log('Adding user finished: ', result);
+        this.isLoading = false;
+        this.dialogRef.close();
       })
   }
 

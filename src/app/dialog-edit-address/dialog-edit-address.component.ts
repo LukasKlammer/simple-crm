@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { MatDialogRef } from '@angular/material/dialog';
+import { User } from '../modules/user.class';
 
 @Component({
   selector: 'app-dialog-edit-address',
@@ -7,9 +10,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DialogEditAddressComponent implements OnInit {
 
-  constructor() { }
+  user: User;
+  userId: string = '';
+  isLoading: boolean = false;
+
+  constructor(public dialogRef: MatDialogRef<DialogEditAddressComponent>, private firestore: AngularFirestore) { }
 
   ngOnInit(): void {
+  }
+
+  saveUser() {
+    this.isLoading = true;
+
+    this.firestore
+      .collection('users')
+      .doc(this.userId)
+      .update(this.user.toJSON())
+      .then((result: any) => {
+        console.log('changing user finished: ', result);
+        this.isLoading = false;
+        this.dialogRef.close();
+      })
   }
 
 }

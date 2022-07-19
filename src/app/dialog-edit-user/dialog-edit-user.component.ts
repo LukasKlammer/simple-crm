@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { MatDialogRef } from '@angular/material/dialog';
+import { User } from '../modules/user.class';
 
 @Component({
   selector: 'app-dialog-edit-user',
@@ -7,9 +10,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DialogEditUserComponent implements OnInit {
 
-  constructor() { }
+  user: User;
+  userId: string = '';
+  birthday: Date = new Date();
+  isLoading: boolean = false;
+
+  constructor(public dialogRef: MatDialogRef<DialogEditUserComponent>, private firestore: AngularFirestore) { }
 
   ngOnInit(): void {
   }
 
+  saveUser() {
+    this.user.birthday = this.birthday.getTime();
+    console.log('Current user is', this.user)
+    this.isLoading = true;
+
+    this.firestore
+      .collection('users')
+      .doc(this.userId)
+      .update(this.user.toJSON())
+      .then((result: any) => {
+        console.log('changing user finished: ', result);
+        this.isLoading = false;
+        this.dialogRef.close();
+      })
+  }
+
 }
+
+
