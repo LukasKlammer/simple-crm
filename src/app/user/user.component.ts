@@ -10,19 +10,19 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 })
 export class UserComponent implements OnInit {
 
-  allUsers = [ { } ];
+  allUsers = [];
 
   constructor(private firestore: AngularFirestore, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.firestore
       .collection('users')
-      .valueChanges()
+      .valueChanges( { idField: 'customIdName' } )
       .subscribe((changes: any) => {
         console.log('Received changes from DB', changes);
         this.allUsers = changes;
         console.log(this.allUsers);
-      })
+      });
   }
 
   openDialog() {
