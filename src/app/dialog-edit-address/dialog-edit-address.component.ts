@@ -10,7 +10,7 @@ import { User } from '../modules/user.class';
 })
 export class DialogEditAddressComponent implements OnInit {
 
-  user: User;
+  user: User = new User();
   userId: string = '';
   isLoading: boolean = false;
 
@@ -22,15 +22,17 @@ export class DialogEditAddressComponent implements OnInit {
   saveUser() {
     this.isLoading = true;
 
-    this.firestore
-      .collection('users')
-      .doc(this.userId)
-      .update(this.user.toJSON())
-      .then((result: any) => {
-        console.log('changing user finished: ', result);
-        this.isLoading = false;
-        this.dialogRef.close();
-      })
+    if (this.userId) {
+      this.firestore
+        .collection('users')
+        .doc(this.userId)
+        .update(this.user.toJSON())
+        .then((result: any) => {
+          console.log('changing user finished: ', result);
+          this.isLoading = false;
+          this.dialogRef.close();
+        })
+    }
   }
 
 }

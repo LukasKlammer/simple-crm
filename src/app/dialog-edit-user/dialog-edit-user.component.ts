@@ -10,7 +10,7 @@ import { User } from '../modules/user.class';
 })
 export class DialogEditUserComponent implements OnInit {
 
-  user: User;
+  user: User = new User();
   userId: string = '';
   birthday: Date = new Date();
   isLoading: boolean = false;
@@ -25,15 +25,17 @@ export class DialogEditUserComponent implements OnInit {
     console.log('Current user is', this.user)
     this.isLoading = true;
 
-    this.firestore
-      .collection('users')
-      .doc(this.userId)
-      .update(this.user.toJSON())
-      .then((result: any) => {
-        console.log('changing user finished: ', result);
-        this.isLoading = false;
-        this.dialogRef.close();
-      })
+    if (this.userId) {
+      this.firestore
+        .collection('users')
+        .doc(this.userId)
+        .update(this.user.toJSON())
+        .then((result: any) => {
+          console.log('changing user finished: ', result);
+          this.isLoading = false;
+          this.dialogRef.close();
+        })
+    }
   }
 
 }
